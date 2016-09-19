@@ -1,0 +1,319 @@
+<?php
+
+/**
+ * @file
+ * Adds css class names to drupal menus.
+ *
+ * Adds css classes to drupal menu items, based on the menu item's name.
+ * This allows menu items to be styled separately and for css image
+ * sprite techniques to be applied.
+ */
+
+/**
+ * Theme registry overrides for various theme functions 
+ */
+function menu_css_names_theme_registry_alter(&$theme_registry) {
+  if (!empty($theme_registry['menu_link'])) {
+    $theme_registry['menu_link']['function'] = 'menu_css_names_menu_link';
+  }
+  
+  if (!empty($theme_registry['links'])) {
+    $theme_registry['links']['function'] = 'menu_css_names_links';
+  }
+  
+  if (!empty($theme_registry['menu_tree'])) {
+    $theme_registry['menu_tree']['function'] = 'menu_css_names_menu_tree';
+  }
+  
+  if (!empty($theme_registry['menu_local_task'])) {
+    $theme_registry['menu_local_task']['function'] = 'menu_css_names_menu_local_task';
+  }
+  
+  if (!empty($theme_registry['nice_menus_build'])) {
+    $theme_registry['nice_menus_build']['function'] = 'menu_css_names_nice_menus_build';
+  }
+}
+
+
+/**
+ * This is the modified version of the default theme_links() function (this
+ * is the function that is used to theme Primary and Secondary links).
+ * Extra code has been added which puts the name of the link into the <li> 
+ * element's class name.
+ */
+
+function menu_css_names_links($variables) {
+  $links = $variables['links'];
+  $attributes = $variables['attributes'];
+  $heading = $variables['heading'];
+  global $language_url;
+  $output = '';
+
+  if (count($links) > 0) {
+    $output = '';
+
+    // Treat the heading first if it is present to prepend it to the
+    // list of links.
+    if (!empty($heading)) {
+      if (is_string($heading)) {
+        // Prepare the array that will be used when the passed heading
+        // is a string.
+        $heading = array(
+          'text' => $heading,
+          // Set the default level of the heading. 
+          'level' => 'h2',
+        );
+      }
+      $output .= '<' . $heading['level'];
+      if (!empty($heading['class'])) {
+        $output .= drupal_attributes(array('class' => $heading['class']));
+      }
+      $output .= '>' . check_plain($heading['text']) . '</' . $heading['level'] . '>';
+    }
+
+    $output .= '<ul' . drupal_attributes($attributes) . '>';
+
+    $num_links = count($links);
+    $i = 1;
+
+    foreach ($links as $key => $link) {
+      $class = array($key);
+			
+			// new menu_css_names code starts here
+		  //
+		  // add a class that is equal to the title of the menu link,
+		  // replacing special characters with dashes.
+		  if (!empty($link['title'])) {
+		    $class[] = _make_class_name($link['title']);
+			}
+			// end of menu_css_names code
+			
+      // Add first, last and active classes to the list of links to help out themers.
+      if ($i == 1) {
+        $class[] = 'first';
+      }
+      if ($i == $num_links) {
+        $class[] = 'last';
+      }
+      if (isset($link['href']) && ($link['href'] == $_GET['q'] || ($link['href'] == '<front>' && drupal_is_front_page()))
+           && (empty($link['language']) || $link['language']->language == $language_url->language)) {
+        $class[] = 'active';
+      }
+      $output .= '<li' . drupal_attributes(array('class' => $class)) . '>';
+
+      if (isset($link['href'])) {
+        // Pass in $link as $options, they share the same keys.
+        $output .= l($link['title'], $link['href'], $link);
+      }
+      elseif (!empty($link['title'])) {
+        // Some links are actually not links, but we wrap these in <span> for adding title and class attributes.
+        if (empty($link['html'])) {
+          $link['title'] = check_plain($link['title']);
+        }
+        $span_attributes = '';
+        if (isset($link['attributes'])) {
+          $span_attributes = drupal_attributes($link['attributes']);
+        }
+        $output .= '<span' . $span_attributes . '>' . $link['title'] . '</span>';
+      }
+
+      $i++;
+      $output .= "</li>\n";
+    }
+
+    $output .= '</ul>';
+  }
+
+  return $output;
+}
+
+
+/**
+ * This is the modified version of the default theme_menu_link() function
+ *
+ **/
+function menu_css_names_menu_link(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+  
+  // new menu_css_names code starts here
+  //
+  // add a class that is equal to the title of the menu link,
+  // replacing special characters with dashes.
+  if (!empty($element['title'])) {
+    $element['#attributes']['class'][] = _make_class_name($element['title']);
+	}
+	// end of menu_css_names code
+			
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li ' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+
+/**
+ * This is the modified version of the default theme_menu_tree() function.
+ *
+ * Note that this function was not overridden in the D6 version of this module.
+ */
+function menu_css_names_menu_tree($variables) {
+  $menu = $variables['tree'];
+  $menu = preg_replace_callback(
+    '/(<li\s+class="[^"]+)("><a\s+[^>]+>)(.+?)(<\/a>)/',
+    function ($m) {
+      return $m[1] . ' ' . _make_class_name($m[3]) . $m[2] . $m[3] . $m[4];
+    },
+    $menu
+  );
+
+  return '<ul class="menu">' . stripslashes($menu) . '</ul>';
+}
+
+/**
+ * This is the modified version of the default theme_menu_local_task() function
+ *
+ **/
+function menu_css_names_menu_local_task($variables) {
+  $link = $variables['element']['#link'];
+  $link_text = $link['title'];
+
+  if (!empty($variables['element']['#active'])) {
+    // Add text to indicate active tab for non-visual users.
+    $active = '<span class="element-invisible">' . t('(active tab)') . '</span>';
+
+    // If the link does not contain HTML already, check_plain() it now.
+    // After we set 'html'=TRUE the link will not be sanitized by l().
+    if (empty($link['localized_options']['html'])) {
+      $link['title'] = check_plain($link['title']);
+    }
+    $link['localized_options']['html'] = TRUE;
+    $link_text = t('!local-task-title!active', array('!local-task-title' => $link['title'], '!active' => $active));
+  }
+	// new menu_css_names code starts here
+  $class = _make_class_name($link_text);
+	
+  return '<li' . (!empty($variables['element']['#active']) ? ' class="active ' . $class . '"' : ' class="' . $class . '"') . '>' . l($link_text, $link['href'], $link['localized_options']) . "</li>\n";
+  // end of menu_css_names code
+}
+
+
+/**
+ * Helper function that builds the nested lists of a Nice menu.
+ *
+ * @param $menu
+ *   Menu array from which to build the nested lists.
+ * @param $depth
+ *   The number of children levels to display. Use -1 to display all children
+ *   and use 0 to display no children.
+ * @param $trail
+ *   An array of parent menu items.
+ */
+function menu_css_names_nice_menus_build($variables) {
+  $menu = $variables['menu'];
+  $depth = $variables['depth'];
+  $trail = $variables['trail'];
+  $output = '';
+  // Prepare to count the links so we can mark first, last, odd and even.
+  $index = 0;
+  $count = 0;
+  foreach ($menu as $menu_count) {
+    if ($menu_count['link']['hidden'] == 0) {
+      $count++;
+    }
+  }
+  // Get to building the menu.
+  foreach ($menu as $menu_item) {
+    $mlid = $menu_item['link']['mlid'];
+    // Check to see if it is a visible menu item.
+    if (!isset($menu_item['link']['hidden']) || $menu_item['link']['hidden'] == 0) {
+      // Check our count and build first, last, odd/even classes.
+      $index++;
+      $first_class = $index == 1 ? ' first ' : '';
+      $oddeven_class = $index % 2 == 0 ? ' even ' : ' odd ';
+      $last_class = $index == $count ? ' last ' : '';
+      // Build class name based on menu path
+      // e.g. to give each menu item individual style.
+      // Strip funny symbols.
+      $clean_path = str_replace(array('http://', 'www', '<', '>', '&', '=', '?', ':', '.'), '', $menu_item['link']['href']);
+      // Convert slashes to dashes.
+      $clean_path = str_replace('/', '-', $clean_path);
+      $class = 'menu-path-' . $clean_path;
+      
+      // added this for menu_css_names
+      $class .= ' ' . _make_class_name($menu_item['link']['link_title']);
+      // end of menu_css_names code
+      
+      if ($trail && in_array($mlid, $trail)) {
+        $class .= ' active-trail';
+      }
+      // If it has children build a nice little tree under it.
+      if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below'])) && $depth != 0) {
+        // Keep passing children into the function 'til we get them all.
+        $children = theme('nice_menus_build', array('menu' => $menu_item['below'], 'depth' => $depth, 'trail' => $trail));
+        // Set the class to parent only of children are displayed.
+        $parent_class = ($children && ($menu_item['link']['depth'] <= $depth || $depth == -1)) ? 'menuparent ' : '';
+         
+         $element = array(
+          '#below' => '',
+          '#title' => $menu_item['link']['link_title'],
+          '#href' =>  $menu_item['link']['href'],
+          '#localized_options' => array(),
+          '#attributes' => array(),
+        );
+        $variables['element'] = $element;
+        
+        $output .= '<li class="menu-' . $mlid . ' ' . $parent_class . $class . $first_class . $oddeven_class . $last_class . '">'. theme('nice_menus_menu_item_link', $variables);
+        // Check our depth parameters.
+        if ($menu_item['link']['depth'] <= $depth || $depth == -1) {
+          // Build the child UL only if children are displayed for the user.
+          if ($children) {
+            $output .= '<ul>';
+            $output .= $children;
+            $output .= "</ul>\n";
+          }
+        }
+        $output .= "</li>\n";
+      }
+      else {
+     
+        $element = array(
+          '#below' => '',
+          '#title' => $menu_item['link']['link_title'],
+          '#href' =>  $menu_item['link']['href'],
+          '#localized_options' => array(),
+          '#attributes' => array(),
+        );
+        $variables['element'] = $element;
+        $output .= '<li class="menu-' . $mlid . ' ' . $class . $first_class . $oddeven_class . $last_class . '">' . theme('nice_menus_menu_item_link', $variables) . "</li>\n";
+      }
+    }
+  }
+  return $output;
+}
+
+// if dhtml_menu module is installed and enabled, then check to see if this menu is
+// being handled by dhtml_menu. if it is, then add in an additional class based on
+// the link text
+function menu_css_names_preprocess_menu_link(&$variables) {
+	if (module_exists('dhtml_menu')) {
+	  if (in_array('dhtml-menu', $variables['element']['#attributes']['class'])) {
+			$variables['element']['#attributes']['class'][] = _make_class_name($variables['element']['#title']);
+		}
+	}
+}
+
+
+//
+// helper function to build class names, with tags and other characters stripped out.
+//
+function _make_class_name($text) {
+	// do main text conversion to class name,
+	// then remove double hyphens or hyphens at beginning or end of class name
+	$text = drupal_strtolower(preg_replace('/(\s?&amp;\s?|[^-_\w\d])/i', '-', trim(strip_tags($text))));
+	$text = preg_replace('/(^-+|-+$)/', '', $text);
+	$text = preg_replace('/--+/', '-', $text);
+	return $text;
+}
