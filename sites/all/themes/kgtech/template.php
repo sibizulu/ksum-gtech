@@ -8,6 +8,8 @@ global $user;
     $vars['title'] = t('Mentors Registration');
 
   }
+
+  kgtech_process_tabs($vars);
 }
 
 
@@ -26,4 +28,16 @@ function kgtech_user_page_title() {
         $output = $user->name;
     }
     return $output;
+}
+
+
+function kgtech_process_tabs(&$vars) {
+  $types = array('#primary', '#secondary');
+  foreach ($types as $type) {
+    if (is_array($vars['tabs'][$type])) {
+      foreach ($vars['tabs'][$type] as $key => $tab) {
+        $vars['tabs'][$type][$key]['#link']['localized_options']['attributes']['class'][] = drupal_clean_css_identifier($vars['tabs'][$type][$key]['#link']['path']);
+      }
+    }
+  }
 }
