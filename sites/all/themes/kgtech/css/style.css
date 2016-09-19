@@ -11,3 +11,6 @@
 .tabs--primary .user--edit.active{
   display: block;
 }
+.idea-wrapper{
+  padding: 10px 0;
+}
