@@ -11,8 +11,9 @@
    <?php
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
-      hide($content['links']);
+      //hide($content['links']);
       hide($content['field_financially_viable']);
+      hide($content['field_total_rating']);
       hide($content['field_technology_stack']);
 
       print render($content);
@@ -20,14 +21,10 @@
 
   </div>
 
+ <?php if ($page): ?>
   <div class="panel panel-default rating-wrapper">
     <!-- Default panel contents -->
     <div class="panel-heading">Rating</div>
-    <div class="panel-body">
-      <p>Interactively generate end-to-end synergy vis-a-vis wireless communities. Objectively actualize leading-edge experiences after focused methodologies.</p>
-    </div>
-
-    <!-- List group -->
     <ul class="list-group">
       <li class="list-group-item">
         <?php print render($content['field_financially_viable']); ?>
@@ -37,12 +34,13 @@
       </li>
     </ul>
   </div>
+  <?php endif; ?>
 
  <?php if ($display_submitted): ?>
     <div class="submitted">
       <?php print $submitted; ?>
+      <?php print render($content['field_total_rating']); ?>
     </div>
   <?php endif; ?>
-
 
 </div>
