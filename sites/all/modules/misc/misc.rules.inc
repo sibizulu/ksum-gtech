@@ -34,15 +34,19 @@ return $actions;
  */
 
 function misc_actions_update_rating($node) {
- $rating = array();
- $rating_finance = votingapi_select_results(array('entity_id' => $node->nid, 'tag' =>'finance', 'function' => 'average'));
- $rating_tech = votingapi_select_results(array('entity_id' => $node->nid, 'tag' =>'tech', 'function' => 'average'));
 
- if(!empty($rating_finance)) {
-    $rating[] = $rating_finance[0]['value'];
- }
- if(!empty($rating_tech)) {
-    $rating[] = $rating_tech[0]['value'];
+ $rating = array();
+
+ foreach ( misc_tags() as $key => $value) {
+   $votes = votingapi_select_results(
+    array(
+      'entity_id' => $node->nid,
+      'tag' => $value,
+      'function' => 'average'
+      )
+    );
+   if ( !empty($votes) )
+    $rating[] = $votes[0]['value'];
  }
 
  $node->field_total_rating['und'][0]['value'] = (array_sum($rating) / count($rating))/10;

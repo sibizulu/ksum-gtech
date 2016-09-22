@@ -8,16 +8,8 @@
 
   <div class="content idea-wrapper"<?php print $content_attributes; ?>>
 
-   <?php
-      // We hide the comments and links now so that we can render them later.
-      hide($content['comments']);
-      //hide($content['links']);
-      hide($content['field_financially_viable']);
-      hide($content['field_total_rating']);
-      hide($content['field_technology_stack']);
-
-      print render($content);
-    ?>
+   <?php print render($content['body']); ?>
+   <?php print render($content['field_taging']); ?>
 
   </div>
 
@@ -26,12 +18,13 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Rating</div>
     <ul class="list-group">
+
+     <?php foreach (kgtech_field_dataname() as $key => $value){ ?>
       <li class="list-group-item">
-        <?php print render($content['field_financially_viable']); ?>
+        <?php print render($content[$value]); ?>
       </li>
-      <li class="list-group-item">
-        <?php print render($content['field_technology_stack']); ?>
-      </li>
+    <?php } ?>
+
     </ul>
   </div>
   <?php endif; ?>

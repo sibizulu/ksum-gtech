@@ -2,13 +2,7 @@
 
 
 function kgtech_preprocess_page(&$vars, $hook) {
-global $user;
-
-  if(arg(0)=='user' && arg(1)== 'register'){
-    $vars['title'] = t('Mentors Registration');
-
-  }
-
+  global $user;
   kgtech_process_tabs($vars);
 }
 
@@ -40,4 +34,14 @@ function kgtech_process_tabs(&$vars) {
       }
     }
   }
+}
+
+
+function kgtech_field_dataname(){
+  $fields = array();
+  $tags = module_exists('misc') ? misc_tags() : array('product','market','business','innovative','financial');
+  foreach ($tags as $key => $value) {
+    $fields[] = "field_".$value;
+  }
+  return $fields;
 }
