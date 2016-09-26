@@ -2,4 +2,5 @@ name = KSUM Gtech
 description = KSUM Gtech Startup Initiative
 core = 7.x
 base theme = bootstrap
+
 stylesheets[all][] = css/style.css

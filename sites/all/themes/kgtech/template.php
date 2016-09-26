@@ -10,6 +10,11 @@ function kgtech_preprocess_page(&$vars, $hook) {
   }
 }
 
+function kgtech_preprocess_html(&$variables) {
+  drupal_add_css('http://fontawesome.io/assets/font-awesome/css/font-awesome.css', array('type' => 'external'));
+}
+
+
 function kgtech_menu_alter(&$items) {
     // Change the title of user profile pages to the user's name.  Gak.
     $items['user/%user']['title callback'] = 'kgtech_user_page_title';
