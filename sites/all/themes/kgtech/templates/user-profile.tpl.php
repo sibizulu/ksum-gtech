@@ -1,4 +1,14 @@
-<?php //print_r($user_profile); ?>
+<?php $user_data = user_load(arg(1)); ?>
+
+<?php if (isset($user_data->roles[6])) : ?>
+
+  <h3>Welcome you! <small>You are logged in using the mail id <?php echo $user_data->mail; ?></small></h3>
+
+  <p>Used credential from <a href="https://startupmission.kerala.gov.in/" target="_blank">Startupmission</a></p>
+
+  <?php echo views_embed_view("ideas"); ?>
+
+<?php else: ?>
 
 <div class="row profile"<?php print $attributes; ?>>
 
@@ -14,3 +24,5 @@
   </div>
 
 </div>
+
+<?php endif; ?>

@@ -4,8 +4,11 @@
 function kgtech_preprocess_page(&$vars, $hook) {
   global $user;
   kgtech_process_tabs($vars);
-}
 
+  if(isset($user->roles[6])){
+    $vars['tabs'] = array();
+  }
+}
 
 function kgtech_menu_alter(&$items) {
     // Change the title of user profile pages to the user's name.  Gak.
