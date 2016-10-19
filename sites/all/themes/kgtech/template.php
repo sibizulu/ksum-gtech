@@ -11,7 +11,7 @@ function kgtech_preprocess_page(&$vars, $hook) {
 }
 
 function kgtech_preprocess_html(&$variables) {
-  drupal_add_css('http://fontawesome.io/assets/font-awesome/css/font-awesome.css', array('type' => 'external'));
+  drupal_add_css('https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css', array('type' => 'external'));
 }
 
 
@@ -52,4 +52,24 @@ function kgtech_field_dataname(){
     $fields[] = "field_".$value;
   }
   return $fields;
+}
+
+function kgtech_menu_tree__menu_leftmenu($variables) {
+  return '<ul class="menu list-group">' . $variables['tree'] . '</ul>';
+}
+function kgtech_menu_tree__menu_leftmenu_mentor($variables) {
+  return '<ul class="menu list-group">' . $variables['tree'] . '</ul>';
+}
+
+function kgtech_menu_link__menu_leftmenu($variables) {
+//add class for li
+   //$variables['element']['#attributes']['class'][] = 'list-group-item';
+   $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
+
+  return theme_menu_link($variables);
+}
+function kgtech_menu_link__menu_leftmenu_mentor($variables) {
+   $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
+
+  return theme_menu_link($variables);
 }
