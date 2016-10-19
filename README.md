@@ -1,5 +1,8 @@
 # GIF - Gtech Innovation Focus Group
 
+![GIF - KSUM](https://raw.githubusercontent.com/sibizulu/ksum-gtech/master/sites/all/themes/kgtech/logo.png)
+
+
 ### BUILD WITH DRUPAL
 
 Drupal is an open source content management platform supporting a variety of
