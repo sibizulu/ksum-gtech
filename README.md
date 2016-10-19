@@ -1,6 +1,6 @@
 # GIF - Gtech Innovation Focus Group
 
-### ABOUT DRUPAL
+### BUILD WITH DRUPAL
 
 Drupal is an open source content management platform supporting a variety of
 websites ranging from personal weblogs to large community-driven websites. For
@@ -12,3 +12,5 @@ Legal information about Drupal:
    See LICENSE.txt in the same directory as this document.
  * Learn about the Drupal trademark and logo policy:
    http://drupal.com/trademark
+
+
