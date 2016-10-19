@@ -2,13 +2,13 @@
   <div class="<?php print $container_class; ?>">
     <div class="navbar-header">
       <?php if ($logo): ?>
-        <a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
-          <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+        <a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>" title="<?php print t('Gtech Innovation Focus Group'); ?>">
+          <img src="<?php print $logo; ?>" alt="<?php print t('Gtech Innovation Focus Group'); ?>" />
         </a>
       <?php endif; ?>
 
       <?php if (!empty($site_name)): ?>
-        <a class="name navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a>
+        <a class="name navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Gtech Innovation Focus Group'); ?>"><?php print $site_name; ?></a>
       <?php endif; ?>
 
       <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
@@ -31,14 +31,8 @@
           print drupal_render($element);
         }
       ?>
-          <?php if (!empty($primary_nav)): ?>
-            <?php print render($primary_nav); ?>
-          <?php endif; ?>
           <?php if (!empty($secondary_nav)): ?>
             <?php print render($secondary_nav); ?>
-          <?php endif; ?>
-          <?php if (!empty($page['navigation'])): ?>
-            <?php print render($page['navigation']); ?>
           <?php endif; ?>
 
         </nav>
@@ -55,7 +49,7 @@
   <?php print render($page['header']); ?>
 </header> <!-- /#page-header -->
 
-<div class="main-container container-fluid">
+<div class="main-container container">
 
   <div class="row">
 
@@ -101,6 +95,34 @@ Continually underwhelm resource sucking architectures rather than viral technolo
 Interactively benchmark parallel web services through team driven technology. Rapidiously enable market positioning customer service before process-centric solutions. Dynamically utilize resource sucking channels for maintainable products. Enthusiastically facilitate excellent communities through covalent action items. Enthusiastically conceptualize quality process improvements and web-enabled synergy.
 
 Monotonectally drive pandemic methodologies vis-a-vis cutting-edge "outside the box" thinking. Conveniently harness sticky platforms after sustainable.</p>
+
+<div class="row">
+  <div class="mar-top20 col-md-6 text-center">
+    <i class="fa fa-cogs fa-5x" aria-hidden="true"></i>
+    <h3>Technology</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, natus, accusantium. Nulla similique ea velit ad sed aperiam saepe, ratione quisquam corporis excepturi minima omnis odit praesentium, maiores dolore porro!</p>
+  </div>
+  <div class="col-md-6 text-center mar-top20">
+    <i class="fa fa-user-secret fa-5x" aria-hidden="true"></i>
+    <h3>Mentorship</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, natus, accusantium. Nulla similique ea velit ad sed aperiam saepe, ratione quisquam corporis excepturi minima omnis odit praesentium, maiores dolore porro!</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="mar-top20 col-md-6 text-center">
+    <i class="fa fa-code-fork fa-5x" aria-hidden="true"></i>
+    <h3>Code</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, natus, accusantium. Nulla similique ea velit ad sed aperiam saepe, ratione quisquam corporis excepturi minima omnis odit praesentium, maiores dolore porro!</p>
+  </div>
+  <div class="col-md-6 text-center mar-top20">
+    <i class="fa fa-diamond fa-5x" aria-hidden="true"></i>
+    <h3>Lift</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, natus, accusantium. Nulla similique ea velit ad sed aperiam saepe, ratione quisquam corporis excepturi minima omnis odit praesentium, maiores dolore porro!</p>
+  </div>
+</div>
+
+
     </section>
 
     <?php if (!empty($page['sidebar_second'])): ?>
@@ -113,7 +135,7 @@ Monotonectally drive pandemic methodologies vis-a-vis cutting-edge "outside the 
 </div>
 
 <?php if (!empty($page['footer'])): ?>
-  <footer class="footer container-fluid">
-    <?php print render($page['footer']); ?>
+  <footer class="footer container">
+           <?php print render($page['footer']); ?>
   </footer>
 <?php endif; ?>

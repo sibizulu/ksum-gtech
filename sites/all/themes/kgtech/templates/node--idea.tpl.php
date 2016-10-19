@@ -7,13 +7,14 @@
   <?php print render($title_suffix); ?>
 
   <div class="content idea-wrapper"<?php print $content_attributes; ?>>
-
    <?php print render($content['body']); ?>
    <?php print render($content['field_taging']); ?>
 
   </div>
 
  <?php if ($page): ?>
+
+ <?php print render($content['field_level']); ?>
   <div class="panel panel-default rating-wrapper">
     <!-- Default panel contents -->
     <div class="panel-heading">Rating</div>
@@ -33,7 +34,9 @@
     <div class="submitted">
       <?php print $submitted; ?>
       <?php print render($content['field_total_rating']); ?>
-    </div>
-  <?php endif; ?>
 
+    </div>
+
+  <?php endif; ?>
+<?php print render($content['comments']); ?>
 </div>

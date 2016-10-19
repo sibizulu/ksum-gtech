@@ -20,19 +20,36 @@ body.front.navbar-is-fixed-top{
 .banner-area{
   margin-bottom: 20px;
 }
-.connect-ksum a.hybridauth-widget-provider{
-    font-size: 13px;
-    background: #827f7f;
-    padding: 8px 20px 8px 20px !important;
-    text-decoration: none;
-    margin-top: 3px;
+.navbar-default {
+    background-color: #f4d23e !important;
+    border-color: #f1c400!important;
 }
-.connect-ksum a.hybridauth-widget-provider:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
+.navbar{
+  margin-bottom: 0;
+}
+.main-container{
+  padding-top: 20px
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus,.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #1a4f84;
+    background-color: #f4d23e;
+}
+.navbar-default .navbar-nav > li > a{
+  color: #1a4f84;
+}
+.navbar-collapse nav{
+  margin-top: 40px;
+  float: right;
+}
+ul.hybridauth-widget{
+  float: left !important;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.mar-top20 {
+  margin-top: 20px;
 }
