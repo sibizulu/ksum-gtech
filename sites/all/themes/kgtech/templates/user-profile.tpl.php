@@ -19,7 +19,7 @@
       <?php hide($user_profile['field_name']); ?>
       <?php print render($user_profile); ?>
     <div class="links">
-      <a href="<?php print url("user/{$GLOBALS['user']->uid}/edit"); ?>" class="btn btn-info">Edit Profile</a>
+      <a href="<?php print url("user/{$user_data->uid}/edit"); ?>" class="btn btn-info">Edit Profile</a>
     </div>
   </div>
 

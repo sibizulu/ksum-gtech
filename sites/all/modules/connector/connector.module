@@ -148,7 +148,7 @@ function connector_permission() {
   $connectors = _connector_get_connectors();
   foreach ($connectors as $connector) {
     $perms['connect with ' . $connector['name']] = array(
-      'title' => t('Connect with @title', array('@title' => $connector['title'])),
+      'title' => t('Submit Your Idea'),
       'description' => t('Allow user to make a connection with #title to login, register on this site or do stuff on #title in name of the user.', array('#title' => $connector['title'])),
     );
   }
@@ -229,7 +229,7 @@ function connector_user_logout($account) {
  * @todo Please document this function.
  * @see http://drupal.org/node/1354
  */
-function connector_button_form($form, &$form_state, $account = FALSE, $label = 'Connect with !title', $action = 'default') {
+function connector_button_form($form, &$form_state, $account = FALSE, $label = 'Submit Your Idea', $action = 'default') {
   $form = array(
     '#theme' => 'connector_buttons',
     '#has_buttons' => FALSE,
@@ -251,7 +251,7 @@ function connector_button_form($form, &$form_state, $account = FALSE, $label = '
     if (user_access('connect with ' . $connector['name']) && isset($connector[$callback]) && is_callable($connector[$callback])) {
       $form[$key] = array(
         '#type' => 'submit',
-        '#value' => t($label, array('!title' => $connector['title'])),
+        '#value' => t('Submit Your Idea'),
         '#submit' => array($connector[$callback]),
         'connector' => array(
           '#type' => 'value',
@@ -556,6 +556,7 @@ function theme_connector_buttons($variables) {
   $output = '';
   $buttons = array();
   foreach (element_children($form) as $key) {
+
     if ($form[$key]['#type'] == 'submit') {
       $class = str_replace('_', '-', $key);
       $form[$key]['#attributes']['class'][] = 'connector-button';

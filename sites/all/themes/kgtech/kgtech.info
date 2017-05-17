@@ -4,3 +4,5 @@ core = 7.x
 base theme = bootstrap
 
 stylesheets[all][] = css/style.css
+
+scripts[] = js/kgtech.js
