@@ -1,0 +1,1 @@
+window.CKEDITOR_BASEPATH = '/ksum-gtech/sites/all/libraries/ckeditor/';
